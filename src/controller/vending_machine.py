@@ -1,4 +1,4 @@
-from src.services.currency import is_valid_coin, count_funds
+from src.services.currency import is_valid_coin, count_funds, return_change
 from src.services.product import Product
 from src.database.product_database import purchase_item
 
@@ -8,7 +8,8 @@ def vending_machine(list_coins, product_location):
     total_funds = count_funds(valid_coin_list)
     vend = {
         'message': None,
-        'product': None
+        'product': None,
+        'change': []
     }
 
     product = Product()
@@ -21,5 +22,5 @@ def vending_machine(list_coins, product_location):
         else:
             vend['message'] = 'Thank You! Enjoy Your Snack!'
             vend['product'] = purchase_item(product_location)
-
+            vend['change'] = return_change(total_funds, product_cost)
     return vend

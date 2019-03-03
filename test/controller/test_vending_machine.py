@@ -139,3 +139,46 @@ def test_vending_machine__should_return_item_dictionary(mock_product):
     actual = vending_machine.vending_machine(valid_coins, product_location)
 
     assert actual['product']['Product Name'] == 'Snickers'
+
+
+@patch('src.controller.vending_machine.Product')
+def test_vending_machine__should_return_change(mock_product):
+    valid_coins = [coins.DOLLAR, coins.QUARTER]
+    product_location = 'G8'
+    mock_product.return_value.get_product_cost.return_value = 1.0
+
+    actual = vending_machine.vending_machine(valid_coins, product_location)
+
+    assert actual['change'] == [coins.QUARTER]
+
+
+def test_vending_machine__can_purchase_product():
+    product_location = 'G8'
+    list_coins = [coins.DOLLAR, coins.QUARTER, coins.DIME]
+
+    actual = vending_machine.vending_machine(list_coins, product_location)
+
+    assert actual['message'] == 'Thank You! Enjoy Your Snack!'
+    assert actual['product']['Product Name'] == 'Snickers'
+    assert actual['change'] == [coins.QUARTER, coins.DIME]
+
+
+def test_vending_machine__insufficient_funds():
+    product_location = 'G8'
+    list_coins = [coins.NICKEL]
+
+    actual = vending_machine.vending_machine(list_coins, product_location)
+
+    assert actual['message'] == 'Insufficient Funds Provided'
+    assert actual['product'] is None
+
+
+def test_vending_machine__product_is_unavailable():
+    product_location = 'G15'
+    list_coins = [coins.DOLLAR]
+
+    actual = vending_machine.vending_machine(list_coins, product_location)
+
+    assert actual['message'] == 'Product is Unavailable'
+    assert actual['product'] is None
+
