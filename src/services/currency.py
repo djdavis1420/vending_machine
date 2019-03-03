@@ -1,9 +1,12 @@
 from src.models import coins
 
 
-def is_valid_coin(coin_to_compare):
-    x = [valid_coin for valid_coin in coins.VALID_COINS if __compare_coins(valid_coin, coin_to_compare)]
-    return len(x) > 0
+def validate_coin(coin_to_compare):
+    matching_coin = [valid_coin for valid_coin in coins.VALID_COINS if __compare_coins(valid_coin, coin_to_compare)]
+    if len(matching_coin) > 0:
+        return matching_coin[0]
+    else:
+        raise Exception('Coin is not valid!')
 
 
 def __compare_coins(valid_coin, coin_to_compare):

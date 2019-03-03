@@ -13,4 +13,4 @@ class Product:
         return inserted_funds >= product_cost
 
     def get_product_cost(self):
-        return int(self.products[0]['Product Cost'])
+        return float(self.products[0]['Product Cost'])

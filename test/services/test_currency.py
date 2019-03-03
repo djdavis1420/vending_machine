@@ -2,48 +2,57 @@ from src.models import coins
 from src.services import currency
 
 
-def test_is_valid_coin__should_return_true_for_quarter():
+def test_validate_coin__should_return_quarter():
     valid_coin = coins.QUARTER
-    actual = currency.is_valid_coin(valid_coin)
+    actual = currency.validate_coin(valid_coin)
 
-    assert actual is True
+    assert actual == coins.QUARTER
 
 
-def test_is_valid_coin__should_return_true_for_dime():
+def test_validate_coin__should_return_dime():
     valid_coin = coins.DIME
-    actual = currency.is_valid_coin(valid_coin)
+    actual = currency.validate_coin(valid_coin)
 
-    assert actual is True
+    assert actual == coins.DIME
 
 
-def test_is_valid_coin__should_return_false_for_invalid_coin_weight():
+def test_validate_coin__should_throw_for_invalid_coin_weight():
     invalid_coin = {
         'weight': 53.52,
         'height': coins.QUARTER['height'],
     }
-    actual = currency.is_valid_coin(invalid_coin)
 
-    assert actual is False
+    try:
+        currency.validate_coin(invalid_coin)
+        assert False
+    except Exception as ex:
+        assert ex.args[0] == 'Coin is not valid!'
 
 
-def test_is_valid_coin__should_return_false_for_invalid_coin_height():
+def test_validate_coin__should_throw_for_invalid_coin_height():
     invalid_coin = {
         'weight': coins.QUARTER['weight'],
         'height': 99.99,
     }
-    actual = currency.is_valid_coin(invalid_coin)
 
-    assert actual is False
+    try:
+        currency.validate_coin(invalid_coin)
+        assert False
+    except Exception as ex:
+        assert ex.args[0] == 'Coin is not valid!'
 
 
-def test_is_valid_coin__should_return_false_for_invalid_coin_height_and_weight():
+def test_validate_coin__should_throw_for_invalid_coin_weight_and_height():
     invalid_coin = {
         'weight': 99.9,
         'height': 99.9,
     }
-    actual = currency.is_valid_coin(invalid_coin)
 
-    assert actual is False
+    try:
+        currency.validate_coin(invalid_coin)
+        assert False
+    except Exception as ex:
+        assert ex.args[0] == 'Coin is not valid!'
 
 
 def test_count_funds__should_add_value_of_two_quarters():

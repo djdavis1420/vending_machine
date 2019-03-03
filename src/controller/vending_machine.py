@@ -1,10 +1,10 @@
-from src.services.currency import is_valid_coin, count_funds, return_change
+from src.services.currency import validate_coin, count_funds, return_change
 from src.services.product import Product
 from src.database.product_database import purchase_item
 
 
 def vending_machine(list_coins, product_location):
-    valid_coin_list = [coin for coin in list_coins if is_valid_coin(coin)]
+    valid_coin_list = [validate_coin(coin) for coin in list_coins]
     total_funds = count_funds(valid_coin_list)
     vend = {
         'message': None,

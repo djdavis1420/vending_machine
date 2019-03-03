@@ -34,7 +34,7 @@ def mapped_products(locations):
 
 
 def __open_database_file():
-    with open('../../product_database.csv', 'r') as fileref:
+    with open('C:/Users/djdav/PycharmProjects/vending_machine/product_database.csv', 'r') as fileref:
         return fileref.readlines()
 
 
