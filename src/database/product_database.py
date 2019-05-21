@@ -1,3 +1,5 @@
+import os
+
 def get_products_by_location(product_location):
     product_listing = __open_database_file()
     return __filter_products(product_listing, 1, product_location)
@@ -34,7 +36,9 @@ def mapped_products(locations):
 
 
 def __open_database_file():
-    with open('C:/Users/djdav/PycharmProjects/vending_machine/product_database.csv', 'r') as fileref:
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, 'product_database.csv')
+    with open(filename, 'r') as fileref:
         return fileref.readlines()
 
 
